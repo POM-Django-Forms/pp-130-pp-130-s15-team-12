@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 from authentication import views as auth_views
 from views import home_view
+from book.views import create_book
 
 
 urlpatterns = [
@@ -31,5 +32,5 @@ urlpatterns = [
     path('author/', include('author.urls')),
     path('book/', include('book.urls')),
     path('order/', include('order.urls')),
-
+    path('add/', create_book, name='book_form.html'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
