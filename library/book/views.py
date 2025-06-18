@@ -3,6 +3,18 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Book
 from author.models import Author
 from order.models import Order
+from .forms import BookForm
+
+def create_book(request):
+    """ Створення нової книги через Django-форму """
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book')  # або інша сторінка
+    else:
+        form = BookForm()
+    return render(request, 'book/book_form.html', {'form': form})
 
 def is_librarian(user):
     return user.is_authenticated and user.role == 1

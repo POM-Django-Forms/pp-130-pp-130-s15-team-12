@@ -15,7 +15,7 @@ class Book(models.Model):
         param authors: list of Authors
         type authors: list->Author
     """
-    name = models.CharField(blank=True, max_length=128)
+    name = models.CharField(blank=True, max_length=128, unique=True) # Django автоматично додасть перевірку на унікальність: якщо будедодаватись книга з назвою, яка вже є — буде помилка валідації, і форма її покаже.
     description = models.CharField(blank=True, max_length=256)
     count = models.IntegerField(default=10)
     id = models.AutoField(primary_key=True)
