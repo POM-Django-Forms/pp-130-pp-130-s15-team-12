@@ -11,7 +11,7 @@ def create_book(request):
         form = BookForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('book')
+            return redirect('librarian_book_list')
     else:
         form = BookForm()
     return render(request, 'book/book_form.html', {'form': form})
