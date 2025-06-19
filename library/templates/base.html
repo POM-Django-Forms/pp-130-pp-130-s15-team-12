@@ -22,7 +22,9 @@
 </header> 
 
 <main>
-    {% block content %}{% endblock %}
+    {% block content %}
+    <a href="{% url 'profile' request.user.id %}">👤 Profile</a>
+    {% endblock %}
 </main>
 
 <footer>

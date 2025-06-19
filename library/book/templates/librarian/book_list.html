@@ -18,6 +18,7 @@
         {% endfor %}
     </select>
     <button type="submit">Search</button>
+    <a href="{% url 'base' %}"><button>Home</button></a>
 </form>
 
 <table>
@@ -61,4 +62,6 @@
         {% endfor %}
     </tbody>
 </table>
+<br>
+<a href="{{ request.META.HTTP_REFERER|default:'/' }}">← Назад</a>
 {% endblock %}

@@ -52,4 +52,6 @@
         {% endfor %}
     </tbody>
 </table>
+<br>
+<a href="{{ request.META.HTTP_REFERER|default:'/' }}">← Назад</a>
 {% endblock %}

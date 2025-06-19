@@ -27,7 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('authentication/', include('authentication.urls')),  # Connects other routes for authentication
     path('', home_view, name='base'), # Main page
-    # path('', RedirectView.as_view(url='/authentication/')),  # redirect from the main page
     path('librarians/', auth_views.librarians_view, name='librarians'),
     path('author/', include('author.urls')),
     path('book/', include('book.urls')),
