@@ -22,7 +22,11 @@
     <thead>
         <tr>
             <th>Image</th>
-            <th>Name</th>
+            <th>
+                <a href="?{% if query %}q={{ query }}&{% endif %}{% if author_id %}author={{ author_id }}&{% endif %}sort={% if sort == 'name' %}-name{% else %}name{% endif %}">
+                  Name {% if sort == 'name' %}🔼{% elif sort == '-name' %}🔽{% endif %}
+                </a>
+            </th>              
             <th>Description</th>
             <th>Count</th>
             <th>Authors</th>

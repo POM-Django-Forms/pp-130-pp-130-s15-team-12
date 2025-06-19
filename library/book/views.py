@@ -25,8 +25,15 @@ def book_list_view(request):
     author_id = request.GET.get('author', '').strip()
 
     books = Book.objects.all()
+    sort = request.GET.get('sort', 'name')
+    if sort not in ['name', '-name']:
+        sort = 'name'
+
+    books = books.order_by(sort)
+
+
     if query:
-        books = books.filter(name__icontains=query)
+        books = books.filter(name__icontains=query).order_by("name")
     if author_id.isdigit():
         books = books.filter(authors__id=int(author_id))
 
@@ -34,11 +41,13 @@ def book_list_view(request):
     template = 'librarian/book_list.html' if is_librarian(request.user) else 'user/book_list.html'
 
     return render(request, template, {
-        'books': books.distinct(),
-        'authors': authors,
+        'books': books,
+        'sort': sort,
         'query': query,
         'author_id': author_id,
+        'authors': authors,
     })
+
 
 @login_required
 def book_detail_view(request, book_id):
