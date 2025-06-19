@@ -10,6 +10,8 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>User First Name</th>
+            <th>User Last Name</th>
             <th>Book</th>
             <th>Created At</th>
             <th>Planned End At</th>
@@ -20,6 +22,8 @@
     {% for order in orders %}
         <tr>
             <td>{{ order.id }}</td>
+            <td>{{ order.user.first_name }}</td>
+            <td>{{ order.user.last_name }}</td>
             <td>{{ order.book.name }}</td>
             <td>{{ order.created_at }}</td>
             <td>{{ order.plated_end_at }}</td>
