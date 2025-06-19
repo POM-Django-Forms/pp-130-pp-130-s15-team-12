@@ -23,7 +23,9 @@
 
 <main>
     {% block content %}
-    <a href="{% url 'profile' request.user.id %}">👤 Profile</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' user.id %}">👤 Profile</a>
+    {% endif %}
     {% endblock %}
 </main>
 

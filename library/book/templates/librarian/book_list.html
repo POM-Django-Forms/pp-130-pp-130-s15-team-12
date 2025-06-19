@@ -9,6 +9,8 @@
 
 <a href="{% url 'create_book' %}">➕ Add New Book</a>
 
+<a href="{% url 'profile' request.user.id %}">👤 Profile</a>
+
 <form method="get" style="margin-top: 10px;">
     <input type="text" name="q" value="{{ query }}" placeholder="Search by book name" />
     <select name="author">
