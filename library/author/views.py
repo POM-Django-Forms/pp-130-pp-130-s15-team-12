@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Author
+from .forms import AuthorForm
+
 
 def is_librarian(user):
     return user.is_authenticated and user.role == 1
@@ -25,17 +27,14 @@ def author_list_view(request):
 @user_passes_test(is_librarian)
 def create_author_view(request):
     if request.method == 'POST':
-        name = request.POST.get('name', '').strip()
-        surname = request.POST.get('surname', '').strip()
-        patronymic = request.POST.get('patronymic', '').strip()
-        
-        if not patronymic:
-            patronymic = None
-
-        if name and surname:
-            Author.create(name=name, surname=surname, patronymic=patronymic)
-            return redirect('author_list')  
-
+        if request.method == 'POST':
+            form = AuthorForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('authors_list')  # Замени на своё имя маршрута
+        else:
+            form = AuthorForm()
+        return render(request, 'author/create_author.html', {'form': form})
     return render(request, 'create_author.html')
 
 @login_required
