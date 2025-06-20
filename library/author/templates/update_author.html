@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Author{% endblock %}
+
+{% block content %}
+<h2>Edit Author</h2>
+
+<form method="POST" class="author-form">
+    {% csrf_token %}
+
+    <label for="name">First Name:</label><br />
+    <input type="text" id="name" name="name" maxlength="20" value="{{ author.name }}" required /><br />
+
+    <label for="surname">Last Name:</label><br />
+    <input type="text" id="surname" name="surname" maxlength="20" value="{{ author.surname }}" required /><br />
+
+    <label for="patronymic">Middle Name:</label><br />
+    <input type="text" id="patronymic" name="patronymic" maxlength="20" value="{{ author.patronymic|default_if_none:'' }}" /><br />
+
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

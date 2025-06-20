@@ -5,19 +5,20 @@ from author.models import Author
 from order.models import Order
 from .forms import BookForm
 
+def is_librarian(user):
+    return user.is_authenticated and user.role == 1
+
+@login_required
 def create_book(request):
-    """ Створення нової книги через Django-форму """
+    """Створення нової книги через Django-форму"""
     if request.method == 'POST':
         form = BookForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('librarian_book_list')
+            return redirect('book')
     else:
         form = BookForm()
     return render(request, 'book/book_form.html', {'form': form})
-
-def is_librarian(user):
-    return user.is_authenticated and user.role == 1
 
 @login_required
 def book_list_view(request):
@@ -69,7 +70,8 @@ def create_book_view(request):
 
         if name and len(name) <= 128:
             authors_objs = Author.objects.filter(id__in=selected_authors)
-            Book.create(name=name, description=description, count=count, authors=authors_objs, image=image)
+            book = Book.objects.create(name=name, description=description, count=count, image=image)
+            book.authors.set(authors_objs)
             return redirect('librarian_book_list')
 
     return render(request, 'create_book.html', {'authors': authors})
@@ -77,9 +79,9 @@ def create_book_view(request):
 @login_required
 @user_passes_test(is_librarian)
 def delete_book_view(request, book_id):
-    book = Book.get_by_id(book_id)
+    book = Book.objects.filter(id=book_id).first()
     if book:
-        Book.delete_by_id(book_id)
+        book.delete()
     return redirect('librarian_book_list')
 
 @login_required
@@ -96,7 +98,10 @@ def update_book_view(request, book_id):
         count = int(count) if count.isdigit() else book.count
 
         if name and len(name) <= 128:
-            book.update(name=name, description=description, count=count)
+            book.name = name
+            book.description = description
+            book.count = count
+            book.save()
             book.authors.set(selected_authors)
             return redirect('librarian_book_list')
 

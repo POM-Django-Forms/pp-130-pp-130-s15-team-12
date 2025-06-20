@@ -44,3 +44,25 @@ def delete_author_view(request, author_id):
     if author and not author.books.exists():
         Author.delete_by_id(author_id)
     return redirect('author_list')
+
+
+@login_required
+@user_passes_test(is_librarian)
+def update_author_view(request, author_id):
+    author = Author.get_by_id(author_id)
+    if not author:
+        return redirect('author_list')  
+
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        surname = request.POST.get('surname', '').strip()
+        patronymic = request.POST.get('patronymic', '').strip()
+
+        if not patronymic:
+            patronymic = None
+
+        author.update(name=name, surname=surname, patronymic=patronymic)
+        return redirect('author_list')  
+
+    
+    return render(request, 'update_author.html', {'author': author})
