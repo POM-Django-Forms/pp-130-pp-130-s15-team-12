@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Order{% endblock %}
+
+{% block content %}
+<h2>Edit Order</h2>
+
+<form method="POST" class="author-form">
+    {% csrf_token %}
+    
+    <label for="book">Book:</label><br />
+    <select name="book" id="book" required style="width: 320px; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+        {% for book in books %}
+            <option value="{{ book.id }}" {% if book.id == order.book.id %}selected{% endif %}>
+                {{ book.name }}
+            </option>
+        {% endfor %}
+    </select><br />
+    
+    <label for="plated_end_at">Planned Return Date:</label><br />
+    <input type="datetime-local" id="plated_end_at" name="plated_end_at"
+           value="{{ order.plated_end_at|date:'Y-m-d\\TH:i' }}" required
+           style="width: 320px; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;" /><br />
+    
+    <button type="submit" style="background-color: #007bff; color: white; font-weight: 600; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        Save
+    </button>
+</form>
+{% endblock %}

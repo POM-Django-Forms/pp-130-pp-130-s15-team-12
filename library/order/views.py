@@ -52,3 +52,29 @@ def close_order_view(request, order_id):
         order.book.count += 1
         order.book.save()
     return redirect('all_orders')
+
+@login_required
+@user_passes_test(is_librarian)
+def update_order_view(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    books = Book.objects.all()
+
+    if request.method == 'POST':
+        book_id = request.POST.get('book')
+        plated_end_at = request.POST.get('plated_end_at')
+
+        try:
+            book = Book.objects.get(id=book_id)
+        except Book.DoesNotExist:
+            book = order.book  
+
+        order.book = book
+        if plated_end_at:
+            order.plated_end_at = plated_end_at
+        order.save()
+        return redirect('all_orders')
+
+    return render(request, 'librarian/update_order.html', {
+        'order': order,
+        'books': books
+    })

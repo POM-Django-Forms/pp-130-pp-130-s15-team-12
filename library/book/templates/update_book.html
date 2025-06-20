@@ -5,17 +5,18 @@
 {% block content %}
 <h2>Update Book: {{ book.name }}</h2>
 
-<form method="POST">
+<form method="POST" class="author-form" enctype="multipart/form-data">
     {% csrf_token %}
+    
     <label for="id_name">Name:</label><br />
     <input type="text" id="id_name" name="name" maxlength="128" value="{{ book.name }}" required /><br />
-
+    
     <label for="id_description">Description:</label><br />
     <textarea id="id_description" name="description" maxlength="256">{{ book.description }}</textarea><br />
-
+    
     <label for="id_count">Count:</label><br />
     <input type="number" id="id_count" name="count" value="{{ book.count }}" min="0" /><br />
-
+    
     <label>Authors:</label><br />
     {% for author in authors %}
         <input type="checkbox" name="authors" value="{{ author.id }}" id="author_{{ author.id }}"
@@ -24,7 +25,7 @@
     {% empty %}
         <p>No authors available.</p>
     {% endfor %}
-
+    
     <button type="submit">Update</button>
 </form>
 
