@@ -31,7 +31,7 @@ def create_author_view(request):
             form = AuthorForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('authors_list')
+                return redirect('author_list')
         else:
             form = AuthorForm()
         return render(request, 'author/create_author.html', {'form': form})
